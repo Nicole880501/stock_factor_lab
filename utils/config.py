@@ -4,7 +4,7 @@ class Config():
 
     def __init__(self):
         self._parser = ConfigParser()
-        self._parser.read("config.ini", encoding="utf-8")
+        self._parser.read("../config.ini", encoding="utf-8")
         
     def get_database_config(self):
         database_config = {}

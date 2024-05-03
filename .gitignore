@@ -226,6 +226,7 @@ Backup of *.doc*
 
 # experiment ipynb folder
 /experiment_file_lee
+/experiment_file_hao
 
 # trash can
 /UselessFile

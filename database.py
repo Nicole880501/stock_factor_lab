@@ -9,7 +9,7 @@ import pandas as pd
 class Database:
     def __init__(self):
         self._config = Config()
-        self._db_data = self._config.get_database_config()
+        self._db_data= self._config.get_database_config()
         # self.connection()
 
     """
@@ -20,14 +20,12 @@ class Database:
     def create_connection(self):
         # 檢查DB版本&連線成功
         try:
-            config = configparser.ConfigParser()
-            config.read("config.ini")
-            config_host = config["database"]["host"]
-            config_port = int(config["database"]["port"])
-            config_user = config["database"]["user"]
-            config_password = config["database"]["password"]
-            config_db = config["database"]["db"]
-            config_charset = config["database"]["charset"]
+            config_host = self._db_data["host"]
+            config_port = int(self._db_data["port"])
+            config_user = self._db_data["user"]
+            config_password = self._db_data["password"]
+            config_db = self._db_data["db"]
+            config_charset = self._db_data["charset"]
 
             db = pymysql.connect(
                 host=config_host,
