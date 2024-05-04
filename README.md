@@ -1,16 +1,14 @@
 ## 使用Anaconda
+- 可以參考: https://medium.com/python4u/anaconda%E4%BB%8B%E7%B4%B9%E5%8F%8A%E5%AE%89%E8%A3%9D%E6%95%99%E5%AD%B8-f7dae6454ab6
 - 建立一個自己的環境
+  - conda create --name [你想取的環境名稱] python=3.8
+  - activate [你剛取的環境名稱] 
 - 並匯入requirements.txt 的套件
+  - cd [requirements所在的根目錄]
+  - pip install –r requirements.txt
 
-## 目前技術上的問題
-- Talib 不支支援到最新的python3.11，目前改用python3.8
-- 但目前沒用到Talib
-- Python 的switch架構僅適用於3.10以上
-- 兩個項目有點衝突
-
-## 筆記
-- https://medium.com/ai%E8%82%A1%E4%BB%94/%E7%94%A8-python-%E5%BF%AB%E9%80%9F%E8%A8%88%E7%AE%97-158-%E7%A8%AE%E6%8A%80%E8%A1%93%E6%8C%87%E6%A8%99-26f9579b8f3a
-- Talib指標的公式: https://github.com/TA-Lib/ta-lib-python/blob/master/docs/func_groups/momentum_indicators.md
+## Python 版本
+- Talib 不支支援到最新的python3.11，目前改用python3.8(但目前沒用到Talib)
 
 ## 可能會用到基本語法
 主要分成以下四種:
