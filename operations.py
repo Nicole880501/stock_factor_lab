@@ -163,7 +163,7 @@ def cal_interpolated_of_df(
         # 對每一列應用 Winsorizing 函數
         df = df.apply(remove_outliers_tukey, axis=1, factor=1.5)
     # 判斷計算內差值的方法
-    if method == "interpolated":
+    if method == "ranked":
         # 根據因子的ascending做進一步處理
         # 這邊判斷ASC的邏輯相反
         ranked_factor_df = df.rank(
@@ -174,7 +174,7 @@ def cal_interpolated_of_df(
         # 計算每個分數區間的分數
         ranked_factor_df_after_bin = np.ceil(ranked_factor_df / bin_interval)
         return ranked_factor_df_after_bin
-    elif method == "ranked":
+    elif method == "interpolated":
         # 計算每行的最大值和最小值
         max_values = df.max(axis=1)
         min_values = df.min(axis=1)
