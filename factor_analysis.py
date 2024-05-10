@@ -1,6 +1,7 @@
 from iplab.get_data import Data
 from iplab.database import Database
 from iplab.backtest import *
+from iplab.operations import *
 from datetime import datetime
 import pandas as pd
 from iplab.dataframe import CustomDataFrame
@@ -9,7 +10,7 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 from typing import List, Dict
-from operations import *
+
 
 
 # 雙因子切割(加權內插/排名法用)
