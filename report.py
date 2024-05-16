@@ -388,6 +388,68 @@ class Report():
 
         fig.show()
 
+    def display_topN_cum_return_yearly(self, topN=5):
+        trades_df = self.trades.copy()
+        trades_df["cum_return"] =  (1 + trades_df['return']).groupby(trades_df['stock_id']).cumprod() - 1
+        trades_df = trades_df.groupby('stock_id').last()
+        trades_df = trades_df.reset_index()
+
+        # 假設您有一個 DataFrame，命名為 df，其中包含每次交易的股票、收益等信息
+
+        # 設定 entry_date 的型態為 datetime
+        trades_df['entry_date'] = pd.to_datetime(trades_df['entry_date'])
+
+        # 提取年份資訊
+        trades_df['year'] = trades_df['entry_date'].dt.year
+
+        # 計算每支股票的年度累積回報
+        trades_df['cum_return'] = trades_df.groupby(['stock_id', 'year'])['return'].cumsum()
+        # 選擇每年中累積回報最高的前N名股票
+        top10_stocks = trades_df.groupby(['year', 'stock_id'])['cum_return'].last().reset_index()
+        top10_stocks = top10_stocks.groupby('year').apply(lambda x: x.nlargest(topN, 'cum_return')).reset_index(drop=True)
+
+ 
+        # Prepare the data
+        years = top10_stocks['year'].unique()  # Get unique years
+        stock_ids = sorted(top10_stocks['stock_id'].unique())  # Get unique stock IDs and sort them
+
+        # Create a list to store bar traces for each stock
+        traces = []
+
+        for j, stock_id in enumerate(stock_ids):
+            # Initialize a list to store returns for the current stock
+            stock_returns = []
+            for year in years:
+                # Get the return for the current stock and year
+                return_value = top10_stocks[(top10_stocks['year'] == year) & (top10_stocks['stock_id'] == stock_id)]['cum_return'].values
+                # If there's a return value, append it to the list, otherwise append 0
+                if len(return_value) > 0:
+                    stock_returns.append(return_value[0])
+                else:
+                    stock_returns.append(0)
+            # Create a bar trace for the current stock
+            trace = go.Bar(
+                x=years,
+                y=stock_returns,
+                name=f'Stock {stock_id}'
+            )
+            traces.append(trace)
+
+        # Create the figure
+        fig = go.Figure(data=traces)
+
+        # Update layout
+        fig.update_layout(
+            barmode='stack',
+            xaxis=dict(title='Year'),
+            yaxis=dict(title='Cumulative Return'),
+            title='Stacked Bar Chart of Cumulative Returns by Year'
+        )
+
+        # Show the plot
+        fig.show()
+
+
 # 用來安全進行除法的函數。如果分母 d 不等於零，則返回 n / d，否則返回 0。
 def safe_division(n, d):
     return n / d if d else 0
