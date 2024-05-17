@@ -388,6 +388,51 @@ class Report():
 
         fig.show()
 
+    def display_each_trade_histogram(self, index = "return"):
+        # index 有可能是:
+        # position/period/return/mae/gmfe/bmfe/mdd/pdays
+        # 假設你的dataframe名稱是trades_history
+        df = self.current_trades
+        # 將return欄位的數值乘以100
+        if(index == "position" or index == "return" or index == "mae" or index == "gmfe" or index == "bmfe" or index == "mdd" ):
+            df[index] = df[index] * 100
+
+        # 繪製直方圖
+        plt.figure(figsize=(10, 6))
+        data = df[index]
+
+        # 設置bins的數量
+        bins = 30
+
+        # 計算直方圖數據
+        counts, bin_edges = np.histogram(data, bins=bins)
+
+        # 根據值的正負設置顏色
+        for i in range(len(counts)):
+            if bin_edges[i] < 0:
+                plt.bar(bin_edges[i], counts[i], width=bin_edges[i+1] - bin_edges[i], color='green', edgecolor='black')
+            else:
+                plt.bar(bin_edges[i], counts[i], width=bin_edges[i+1] - bin_edges[i], color='red', edgecolor='black')
+
+        plt.xlabel(f'{index} of each trade(%)')
+        plt.ylabel('Frequency(Count)')
+        plt.title('Histogram of return with Different Colors for Positive and Negative Values')
+        plt.show()
+
+        # 計算各區間佔比
+        total_count = len(data)
+        percentages = {}
+
+        # 計算各區間內數據佔總數據的比值
+        thresholds = [-5, -10, -20]
+        for threshold in thresholds:
+            count = (data <= threshold).sum()
+            percentages[threshold] = (count / total_count) * 100
+
+        # 輸出結果
+        for threshold, percentage in percentages.items():
+            print(f"{threshold}% 占比: {percentage:.2f}%")
+    
     def display_topN_cum_return_yearly(self, topN=5):
         trades_df = self.trades.copy()
         trades_df["cum_return"] =  (1 + trades_df['return']).groupby(trades_df['stock_id']).cumprod() - 1
@@ -448,6 +493,15 @@ class Report():
 
         # Show the plot
         fig.show()
+
+    def display_annual_plot(self, index="company_count"):
+        # 計算每年的績效指標，可帶入指標包含: company_count、cum_returns、portfolio_returns
+        plt.plot(self.stock_data.index, self.stock_data[index], marker='o', linestyle='-', linewidth=1)  # 'o' 是點樣式, '-' 是線樣式
+        plt.title(f'Plot of {index}')
+        plt.xlabel('Time(year)')
+        plt.ylabel(index)
+        plt.grid(True)
+        plt.show()
 
 
 # 用來安全進行除法的函數。如果分母 d 不等於零，則返回 n / d，否則返回 0。
