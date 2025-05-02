@@ -26,7 +26,9 @@
 * 下載資料庫sql檔並放在同一個資料夾中
 * 先建立好空的資料庫，如: `lab`
 * 開啟`xampp control pannel` 點選 `Shell`
-* 執行下列指令 `cd /d <你sql檔的資料夾路徑>`
+* 執行下列指令 
+    ``` bash
+    cd /d <你sql檔的資料夾路徑>
 * 執行下列指令，`-p`表示DB password，如果沒有密碼就拿掉；`lab`表示建立好的DB名字
     ``` bash
     for %f in (*.sql) do "C:\xampp\mysql\bin\mysql.exe" -u root -p lab < "%f"
