@@ -1,6 +1,6 @@
 import configparser
-from iplab.utils.config import Config
-from iplab.dataframe import CustomDataFrame
+from utils.config import Config
+from dataframe import CustomDataFrame
 
 import pymysql
 import pandas as pd

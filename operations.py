@@ -1,5 +1,5 @@
 import pandas as pd
-from iplab.dataframe import CustomDataFrame
+from dataframe import CustomDataFrame
 from datetime import datetime, timedelta
 
 # 外部import

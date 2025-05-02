@@ -1,6 +1,6 @@
-from iplab.database import Database
-from iplab.dataframe import CustomDataFrame
-from iplab.format_data import *
+from database import Database
+from dataframe import CustomDataFrame
+from format_data import *
 import talib
 import pandas as pd
 import numpy as np
